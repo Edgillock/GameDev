@@ -29,6 +29,10 @@ gdscript/warnings/unsafe_void_return=1
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
+
 [physics]
 
 common/physics_ticks_per_second=60

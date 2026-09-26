@@ -4,3 +4,6 @@
 
 # Machine-specific tool settings (see tools/local.cfg.example)
 /tools/local.cfg
+
+# Test reports and logs written by tools/run_tests
+/reports/
