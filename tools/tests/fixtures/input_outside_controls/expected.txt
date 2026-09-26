@@ -1,0 +1,1 @@
+game/modules/beta/beta_api.gd:12: input-outside-controls

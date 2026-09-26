@@ -1,0 +1,3 @@
+game/modules/beta/beta_api.gd:10: not-public
+game/modules/beta/beta_api.gd:11: not-public
+game/modules/beta/beta_api.gd:12: not-public

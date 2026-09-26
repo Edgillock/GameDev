@@ -1,0 +1,4 @@
+game/modules/beta/data/beta_secret.tres:1: not-public
+game/modules/beta/data/beta_secret.tres:3: not-public
+game/modules/beta/scenes/beta.gdshader:5: not-public
+game/modules/beta/scenes/beta_view.tscn:6: not-public

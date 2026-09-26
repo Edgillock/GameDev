@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+; Allowed: a public script. (res://game/modules/alpha/internal/alpha_secret.gd in a comment is ignored.)
+[ext_resource type="Script" path="res://game/modules/alpha/public/alpha_value.gd" id="1"]
+; Forbidden: an internal script.
+[ext_resource type="Script" path="res://game/modules/alpha/internal/alpha_secret.gd" id="2"]
+
+[node name="BetaView" type="Node"]
+script = ExtResource("1")

@@ -1,0 +1,3 @@
+game/modules/beta/beta_api.gd:4: not-in-uses
+game/scenes/boot.gd:8: not-public
+game/scenes/boot.gd:9: not-public
