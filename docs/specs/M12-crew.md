@@ -18,10 +18,13 @@ static func roster() -> CrewRoster                       # the player's crews
 static func assign(vehicle: Vehicle, crew_id: int, part_uid: int, slot: int) -> Error   # slot 0 operator, 1 trainee
 static func unassign(crew_id: int) -> void
 static func add_xp(crew_id: int, family_or_role: StringName, xp: float) -> void
+static func events() -> CrewEvents      # signals live here (CLAUDE.md §3.2)
+# public/crew_events.gd: class_name CrewEvents extends RefCounted
 signal crew_leveled(crew_id: int, key: StringName, level: int)
+signal salvage_ready(returns: Array)      # M12-T4 decides the element type
 ```
 
-Public types: `Crew` (id, role, origin HUMAN/ROBOT, proficiency per key), `CrewRoster`, `CrewRoleDef` (level curve, bonuses per level as modifiers, thresholds).
+Public types: `Crew` (id, role, origin HUMAN/ROBOT, proficiency per key), `CrewRoster`, `CrewRoleDef` (level curve, bonuses per level as modifiers, thresholds), `CrewEvents`.
 
 ## Tasks
 
@@ -55,7 +58,7 @@ Public types: `Crew` (id, role, origin HUMAN/ROBOT, proficiency per key), `CrewR
 
 **Build**
 - Recon: Max View Range modifier (capped), night detection bonus, `&"recon_weak_points"` flag at threshold.
-- Salvage: after a battle ends (signal from the app/battle flow), compute material returns for lost friendly units and enemy drops by level; none if this crew's vehicle was lost, except at the threshold. Emits `salvage_ready(returns)`; `game/scenes` connects it to the economy (M17), since crew doesn't use economy.
+- Salvage: after a battle ends (signal from the app/battle flow), compute material returns for lost friendly units and enemy drops by level; none if this crew's vehicle was lost, except at the threshold. Emits `CrewApi.events().salvage_ready(returns)`; `game/scenes` connects it to the economy (M17), since crew doesn't use economy.
 
 ### M12-T5 · Crew Compartments, consumables and recruitment (DRAFT — OQ-06, OQ-21)
 

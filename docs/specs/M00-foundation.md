@@ -36,7 +36,7 @@ The project already exists: Godot 4.7, Forward+, Jolt Physics, D3D12 on Windows,
 
 **Build**
 
-1. Install **gdUnit4** into `addons/gdUnit4/` (latest release that supports Godot 4.7; record the version in `docs/decisions/0002-tooling.md`) and enable the plugin.
+1. Install **gdUnit4** into `addons/gdUnit4/` (latest release that supports Godot 4.7; record the version in `docs/decisions/0003-tooling.md`) and enable the plugin.
 2. `tools/run_tests.sh` (Git Bash, used by Claude) and `tools/run_tests.cmd` (double-click for the owner): read the Godot path from `tools/local.cfg`, run gdUnit4's command-line runner headless over `res://game`, exit non-zero on any failure, print a short summary.
 3. One sample test in `game/core/tests/test_sanity.gd` that asserts `1 + 1 == 2`.
 

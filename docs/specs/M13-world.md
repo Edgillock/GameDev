@@ -16,11 +16,13 @@ class_name WorldApi
 static func register() -> void
 static func current_weather(pos: Vector3) -> WeatherState
 static func set_time_scale(scale: float) -> Error     # refuses while a forcing event is active
+static func events() -> WorldEvents      # signals live here (CLAUDE.md §3.2)
+# public/world_events.gd: class_name WorldEvents extends RefCounted
 signal weather_changed(area_id: StringName, weather: WeatherState)
 signal forced_realtime(reason: StringName)
 ```
 
-Public types: `BiomeDef`, `WeatherDef` (view range ×, Ground Type shift, concealment modifier, noise modifier, ambient temp), `WeatherState`, `BiomeArea` (a node/volume marking a biome region).
+Public types: `BiomeDef`, `WeatherDef` (view range ×, Ground Type shift, concealment modifier, noise modifier, ambient temp), `WeatherState`, `BiomeArea` (a node/volume marking a biome region), `WorldEvents`.
 
 ## Tasks
 

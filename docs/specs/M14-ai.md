@@ -19,10 +19,12 @@ static func attach_brain(vehicle: Vehicle, faction: StringName, profile: AiProfi
 static func assign_squad(squad_id: int, vehicles: Array[Vehicle]) -> void
 static func squad_members(squad_id: int) -> Array[Vehicle]
 static func order(vehicles: Array[Vehicle], order: Order, queue: bool = false) -> void   # Move/Attack/AttackMove/Stop/Stance
+static func events() -> AiEvents      # signals live here (CLAUDE.md §3.2)
+# public/ai_events.gd: class_name AiEvents extends RefCounted
 signal squad_changed(squad_id: int)
 ```
 
-Public types: `AiProfile` (aggression, preferred range, retreat HP %, stance), `Stance` (HOLD_FIRE, RETURN_FIRE, FREE_FIRE, RETREAT).
+Public types: `AiProfile` (aggression, preferred range, retreat HP %, stance), `Stance` (HOLD_FIRE, RETURN_FIRE, FREE_FIRE, RETREAT), `AiEvents`.
 
 ## Tasks
 

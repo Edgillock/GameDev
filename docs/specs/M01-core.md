@@ -32,12 +32,12 @@ game/autoload/
 
 **Build**
 
-- `Services` autoload (the only autoload in the game): a typed registry. `register(key: StringName, service: Object)`, `get_service(key) -> Object`, `has_service(key)`. Registering the same key twice is an error. Add it to `project.godot` autoloads (this task may edit `project.godot` for that line only).
+- `Services` autoload (the only autoload in the game): a typed registry. `register(key: StringName, service: Object)`, `get_service(key) -> Object`, `has_service(key)`, and `get_or_create(key, create: Callable) -> Object` (returns the service, creating and registering it with `create.call()` on first use; modules use it for their events objects, see `CLAUDE.md` §3.2). Registering the same key twice is an error. Add it to `project.godot` autoloads (this task may edit `project.godot` for that line only).
 - `Log`: levels (debug/info/warn/error), a module tag per message, printed with a timestamp. No other module prints directly.
 - `Rng`: wraps `RandomNumberGenerator` with a seed; `randf()`, `randi_range()`, `chance(p: float) -> bool`, and named sub-streams (`stream(&"weather")`) so systems don't disturb each other's sequences.
 - `GameClock`: in-game time in seconds, day length (data), `time_scale` (Time Acceleration, 1–N), signal `time_scale_changed`, helper `is_night()` from a day/night curve in data. Advances in `_physics_process` of the autoload.
 
-**Tests:** registry errors on duplicates; same seed → same sequence; sub-streams independent; clock advances by `delta × time_scale`.
+**Tests:** registry errors on duplicates; `get_or_create` creates once and returns the same object after; same seed → same sequence; sub-streams independent; clock advances by `delta × time_scale`.
 
 ### M01-T2 · Stats and modifiers (READY)
 

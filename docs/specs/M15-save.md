@@ -17,6 +17,8 @@ static func register_participant(p: Saveable) -> void
 static func save(slot: StringName) -> Error
 static func load(slot: StringName) -> Error
 static func list_slots() -> Array[SaveSlotInfo]
+static func events() -> SaveEvents      # signals live here (CLAUDE.md §3.2)
+# public/save_events.gd: class_name SaveEvents extends RefCounted
 signal saved(slot: StringName)
 signal loaded(slot: StringName)
 ```

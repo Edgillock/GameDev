@@ -25,4 +25,4 @@ Fixed sectors with upgrade levels; each level raises build speed and unlocks par
 
 ### M17-T4 · Farms, extractors, trade and contracts (DRAFT)
 
-Timed production on `GameClock` (in-game time), NPC trading (Scrip + barter), Delivery Contracts with mandatory cargo modules, Salvage Rig collection, and `EconomyApi.receive_salvage(returns)`. Economy does not use the crew module: `game/scenes` connects `CrewApi.salvage_ready` to `receive_salvage`. Reverse Engineering trial builds live here too: take the materials, then call `ProgressionApi.roll_reverse_engineering()`.
+Timed production on `GameClock` (in-game time), NPC trading (Scrip + barter), Delivery Contracts with mandatory cargo modules, Salvage Rig collection, and `EconomyApi.receive_salvage(returns)`. Economy does not use the crew module: `game/scenes` connects `CrewApi.events().salvage_ready` to `receive_salvage`. Reverse Engineering trial builds live here too: take the materials, then call `ProgressionApi.roll_reverse_engineering()`.

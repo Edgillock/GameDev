@@ -23,11 +23,13 @@ static func validate_blueprint(bp: Blueprint) -> ValidationReport
 # runtime
 static func group_status(vehicle: Vehicle) -> Array[GroupStatus]     # for the HUD group bar
 static func weapon_status(vehicle: Vehicle, weapon_uid: int) -> WeaponStatus
+static func events() -> WeaponsEvents      # signals live here (CLAUDE.md §3.2)
+# public/weapons_events.gd: class_name WeaponsEvents extends RefCounted
 signal weapon_fired(vehicle_id: int, weapon_uid: int, muzzle: Transform3D)
 signal active_groups_changed(vehicle_id: int, group_ids: PackedInt32Array)
 ```
 
-Public types: `WeaponDef`, `AmmoRackDef`, `AmmoDef` (extend `PartDef`/`Resource`), `ActivationGroupInfo`, `GroupStatus`, `WeaponStatus`, enums `WeaponClass`, `PowerMode`, `FirePattern` (SALVO, RIPPLE), `MemberState` (READY, RELOADING, OUT_OF_ARC, NO_POWER, NO_AMMO, NO_CREW, DESTROYED).
+Public types: `WeaponDef`, `AmmoRackDef`, `AmmoDef` (extend `PartDef`/`Resource`), `ActivationGroupInfo`, `GroupStatus`, `WeaponStatus`, enums `WeaponClass`, `PowerMode`, `FirePattern` (SALVO, RIPPLE), `MemberState` (READY, RELOADING, OUT_OF_ARC, NO_POWER, NO_AMMO, NO_CREW, DESTROYED), `WeaponsEvents`.
 
 Blueprint props (written only through this API): part `"weapons.ammo_racks"` (ordered uids), part `"weapons.groups"` (group ids), blueprint `"weapons.group_meta"` ({id: {name, color, pattern, ripple_interval_s}}).
 

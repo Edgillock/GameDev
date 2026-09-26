@@ -69,7 +69,14 @@ game/modules/<name>/
 - The graph has no cycles. **Presentation modules** (`controls`, `builder`, `hud`, `audio`) may use anything they list; no other module may use them. Game rules never depend on UI.
 - **Need something from a module you may not use?** Use dependency inversion: the interface lives in `game/core/` (M01), the higher module implements it and registers it in `Services`, the lower module calls the interface. Adding such an interface to core is a change request, not something you do in passing.
 - **Per-vehicle systems** (mobility, power, damage, weapons, detection, crew) extend `core.VehicleSystem` and register a factory with `Services`. The vehicle runtime (M04) attaches every registered system when it spawns a vehicle, without knowing which modules exist.
-- **Signals live on module APIs** (`PowerApi.power_changed`, …). There is no global event bus.
+- **Module signals live on an events object**, because API functions are static and GDScript has no static signals (see `docs/decisions/0002-repo-setup.md`). A module with signals declares them in `public/<name>_events.gd` (`class_name <Name>Events extends RefCounted`) and exposes it through its API:
+
+  ```gdscript
+  static func events() -> PowerEvents:
+      return Services.get_or_create(&"power.events", PowerEvents.new) as PowerEvents
+  ```
+
+  Others connect with `PowerApi.events().power_changed.connect(...)`. Only the owning module emits its events. Signals on instances (a `Vehicle`, `GameClock`) stay on those instances. There is no global event bus.
 - **Orders are data.** Input, AI and any future network layer all produce `core.Order` objects and submit them through `VehicleApi.submit_order()` or the AI squad API. Only the `controls` module reads `Input`.
 
 ### 3.3 Game rules vs. visuals
@@ -117,7 +124,9 @@ game/modules/<name>/
 
 - Work on a branch per task: `task/Mxx-Tn-short-name`, created from `main`.
 - Commit in small steps with messages like `M08-T2: add power flow solver`.
-- Do not merge into `main` and do not push unless the owner asks. The owner reviews and merges.
+- Never merge into `main` or push to it. The owner reviews and merges.
+- **Local sessions** (Claude Code on the owner's PC): do not push unless the owner asks.
+- **Cloud sessions** (claude.ai/code): the machine is discarded when the session ends, so push the task branch to `origin` when the task is done. Godot is not preinstalled there: download the Linux build of the same version (4.7.2) and use it for the tests and checks in section 8.
 
 ## 8. Finishing a task — checklist
 
@@ -125,7 +134,7 @@ game/modules/<name>/
 2. `tools/check_boundaries` passes.
 3. Godot opens the project headless without script errors: `godot --headless --editor --quit`.
 4. The module's `CLAUDE.md` **Status** section is updated (which tasks are done, what's next).
-5. Work is committed on the task branch.
+5. Work is committed on the task branch (and pushed, in a cloud session).
 6. Tell the owner, in plain words:
    - what now works;
    - how to see it (which demo scene to open, which keys to press);

@@ -16,10 +16,12 @@ class_name DamageApi
 static func register() -> void
 static func apply_payload(payload: DamagePayload, hit: HitInfo) -> DamageResult
 static func apply_area(payload: DamagePayload, center: Vector3) -> DamageResult
+static func events() -> DamageEvents      # signals live here (CLAUDE.md §3.2)
+# public/damage_events.gd: class_name DamageEvents extends RefCounted
 signal damage_applied(result: DamageResult)     # for HUD/audio/effects
 ```
 
-Public types: `DamagePayload` (list of `DamageComponent`s), `DamageComponent` (`type: DamageType` + type-specific fields), `HitInfo` (vehicle, part uid, point, normal, direction, velocity), `DamageResult` (per-part and per-bond deltas, destroyed parts).
+Public types: `DamagePayload` (list of `DamageComponent`s), `DamageComponent` (`type: DamageType` + type-specific fields), `HitInfo` (vehicle, part uid, point, normal, direction, velocity), `DamageResult` (per-part and per-bond deltas, destroyed parts), `DamageEvents`.
 
 `DamageComponent` fields by type:
 - KINETIC: `mass_kg`, `velocity_mps`, `diameter_m`, `kinetic_penetration`.

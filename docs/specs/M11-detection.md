@@ -17,11 +17,13 @@ static func register() -> void
 static func contacts_of(faction: StringName) -> Array[Contact]      # current known enemies
 static func is_detected(by_faction: StringName, vehicle: Vehicle) -> bool
 static func start_recon_scan(vehicle: Vehicle, direction: Vector3) -> Error
+static func events() -> DetectionEvents      # signals live here (CLAUDE.md §3.2)
+# public/detection_events.gd: class_name DetectionEvents extends RefCounted
 signal contact_added(faction: StringName, contact: Contact)
 signal contact_lost(faction: StringName, contact: Contact)
 ```
 
-Public types: `ObservationPortDef`, `PaintDef` (concealment per biome/weather, `recon_masking`), `Contact` (`TargetRef`, last seen position/time, revealed info).
+Public types: `ObservationPortDef`, `PaintDef` (concealment per biome/weather, `recon_masking`), `Contact` (`TargetRef`, last seen position/time, revealed info), `DetectionEvents`.
 
 ## Tasks
 

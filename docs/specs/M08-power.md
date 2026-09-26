@@ -19,10 +19,12 @@ static func validate_blueprint(bp: Blueprint) -> ValidationReport
 static func set_conduit_path(bp: Blueprint, conduit_uid: int, from_uid: int, to_uid: int, path_cells: Array[Vector3i]) -> void
 static func set_priority_groups(bp: Blueprint, groups: Array) -> void
 static func runtime_report(vehicle: Vehicle) -> PowerReport
-signal power_changed(vehicle_id: int)     # on the runtime system, re-exposed here
+static func events() -> PowerEvents      # signals live here (CLAUDE.md §3.2)
+# public/power_events.gd: class_name PowerEvents extends RefCounted
+signal power_changed(vehicle_id: int)
 ```
 
-Public types: `PowerPlantDef`, `PowerRelayDef`, `ConduitDef`, `FuelTankDef`, `FuelLineDef`, `ExhaustStackDef` (all extend `PartDef`), `PowerReport`, `PowerNetwork`.
+Public types: `PowerPlantDef`, `PowerRelayDef`, `ConduitDef`, `FuelTankDef`, `FuelLineDef`, `ExhaustStackDef` (all extend `PartDef`), `PowerReport`, `PowerNetwork`, `PowerEvents`.
 
 Blueprint props written only through this API: `"power.from"`, `"power.to"`, `"power.path"` (conduits and fuel lines), `"power.priority_groups"` (blueprint).
 
