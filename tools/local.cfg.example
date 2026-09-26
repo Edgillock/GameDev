@@ -1,0 +1,7 @@
+; Machine-specific settings for the tools/ scripts.
+; Copy this file to tools/local.cfg (git ignores that copy) and set the path
+; to your Godot 4.7.2 executable. Forward slashes work in Git Bash, cmd and
+; GDScript alike, and need no escaping.
+
+[godot]
+path="Y:/Godot/Godot_v4.7.2-stable_win64.exe"
