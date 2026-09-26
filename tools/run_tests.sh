@@ -7,8 +7,12 @@ cd "$(dirname "$0")/.." || exit 2
 
 cfg=tools/local.cfg
 if [ ! -f "$cfg" ]; then
-	echo "tools/local.cfg is missing: copy tools/local.cfg.example to tools/local.cfg and set your Godot path." >&2
-	exit 2
+	# A fresh checkout never has it (git ignores it); the example carries the owner's path.
+	if ! cp tools/local.cfg.example "$cfg" 2>/dev/null; then
+		echo "tools/local.cfg is missing: copy tools/local.cfg.example to tools/local.cfg and set your Godot path." >&2
+		exit 2
+	fi
+	echo "Created tools/local.cfg from tools/local.cfg.example."
 fi
 # tr: the owner may save local.cfg with Windows line endings.
 godot=$(tr -d '\r' < "$cfg" | awk -F'"' '/^\[/ { section = $0 } section == "[godot]" && /^[ \t]*path[ \t]*=/ { print $2; exit }')
@@ -20,8 +24,12 @@ fi
 case "$godot" in
 	*.exe) [ -f "${godot%.exe}_console.exe" ] && godot="${godot%.exe}_console.exe" ;;
 esac
+if [ -d "$godot" ]; then
+	echo "'$godot' is a folder. Edit path= in tools/local.cfg to point at the Godot executable inside it." >&2
+	exit 2
+fi
 if [ ! -f "$godot" ]; then
-	echo "Godot not found at '$godot' (from tools/local.cfg)." >&2
+	echo "Godot not found at '$godot'. Edit path= in tools/local.cfg to point at your Godot executable." >&2
 	exit 2
 fi
 

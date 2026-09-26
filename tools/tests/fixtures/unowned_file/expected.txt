@@ -1,0 +1,1 @@
+game/misc/stray.gd:1: unowned-file

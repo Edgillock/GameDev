@@ -1,6 +1,7 @@
 @echo off
-rem Runs every gdUnit4 test under res://game headless and exits non-zero on any failure.
-rem Double-click it, or run it from a terminal. Claude uses run_tests.sh; both read tools\local.cfg.
+rem Fails on forbidden cross-module references in game/ (rules: docs/specs/M00-foundation.md, M00-T3).
+rem Double-click it, or run it from a terminal; add --self-test to prove every rule fires on the fixtures.
+rem Claude uses check_boundaries.sh; both read the Godot path from tools\local.cfg.
 setlocal EnableExtensions
 cd /d "%~dp0.."
 set "CODE=0"
@@ -36,39 +37,13 @@ if not exist "%GODOT%" (
 	goto :end
 )
 
-if not exist "reports" mkdir "reports"
-rem Keeps Godot from importing the HTML report's images as game assets.
-type nul > "reports\.gdignore"
-
-rem A fresh checkout has no class cache yet, and new class_names only register on import.
-echo Importing project...
-"%GODOT%" --headless --path . --import > "reports\last_import.log" 2>&1
-if errorlevel 1 (
-	type "reports\last_import.log"
-	echo FAILED: Godot could not import the project ^(log: reports\last_import.log^).
-	set "CODE=1"
-	goto :end
-)
-
-"%GODOT%" --headless --path . -s res://addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://game -rd res://reports --ignoreHeadlessMode
+set "SCRIPT=res://tools/check_boundaries.gd"
+if /i "%~1"=="--self-test" set "SCRIPT=res://tools/tests/check_boundaries_test.gd"
+"%GODOT%" --headless --path . --script %SCRIPT%
 set "CODE=%ERRORLEVEL%"
 
 :end
-echo.
-echo ================ Test summary ================
-if "%CODE%"=="0" (
-	echo PASSED: all tests passed.
-) else if "%CODE%"=="2" (
-	echo FAILED: setup problem, see the message above ^(tools\local.cfg or the Godot path^).
-) else if "%CODE%"=="100" (
-	echo FAILED: a test failed or raised an error ^(see above^).
-) else if "%CODE%"=="101" (
-	echo FAILED: tests passed but left orphan nodes, i.e. leaked memory ^(see the orphan report above^).
-) else if "%CODE%"=="105" (
-	echo FAILED: script errors while loading the tests ^(see SCRIPT ERROR above^).
-) else (
-	echo FAILED: exit code %CODE%.
-)
+if "%CODE%"=="2" echo FAILED: setup problem, see the message above ^(tools\local.cfg or the Godot path^).
 rem Keep the window open when double-clicked, so the result can be read.
 echo %cmdcmdline% | findstr /i /c:"%~nx0" >nul && pause
 exit /b %CODE%

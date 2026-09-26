@@ -1,0 +1,3 @@
+game/autoload/services_autoload.gd:3: core-to-module
+game/core/core_type.gd:6: core-to-module
+game/core/core_type.gd:7: core-to-module
